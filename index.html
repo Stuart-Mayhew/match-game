@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Match Game</title>
+  <link href="https://fonts.googleapis.com/css?family=Work+Sans:400,700,900" rel="stylesheet">
+  <link rel='stylesheet' type='text/css' href='css/reset.css'/>
+  <link rel="stylesheet" href="css/bootstrap.css"/>
+  <link rel='stylesheet' type='text/css' href='css/main.css'/>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+  <div id="win-message">
+    <h1>Congratulations!</h1>
+    <h3>You won in 'n' clicks!</h3>
+  </div>
+  <div class="container-fluid">
+    <div class="row">
+      <h1>Match Game</h1>
+    </div>
+    <div class="row">
+      <div id="instructions" class="col-xs-12 col-md-3 col-lg-6">
+        <h3>Rules</h3>
+        <p>Click on a card to reveal the number on the other side. Click on a second card to try and find a match to the first. If you succeed, the pair will be removed from play. If not, try again!</p>
+        <h3>How To Win</h3>
+        <p>You win when all pairs have been found, try to do so with as few clicks as possible!</p>
+      </div>
+      <div id="game" class="col-xs-12 col-md-9 col-lg-6">
+          <div class="col-xs-3 card"><p></p></div>
+          <div class="col-xs-3 card"><p></p></div>
+          <div class="col-xs-3 card"><p></p></div>
+          <div class="col-xs-3 card"><p></p></div>
+
+          <div class="col-xs-3 card"><p></p></div>
+          <div class="col-xs-3 card"><p></p></div>
+          <div class="col-xs-3 card"><p></p></div>
+          <div class="col-xs-3 card"><p></p></div>
+
+          <div class="col-xs-3 card"><p></p></div>
+          <div class="col-xs-3 card"><p></p></div>
+          <div class="col-xs-3 card"><p></p></div>
+          <div class="col-xs-3 card"><p></p></div>
+
+          <div class="col-xs-3 card"><p></p></div>
+          <div class="col-xs-3 card"><p></p></div>
+          <div class="col-xs-3 card"><p></p></div>
+          <div class="col-xs-3 card"><p></p></div>
+      </div>
+      <div id="click-count" class="col-xs-12 col-md-9 col-md-offset-3 col-lg-6 col-lg-offset-6">
+        <h3>Click Count:</h3>
+        <p>You have clicked <b>0</b> times.</p>
+      </div>
+    </div>
+  </div>
+  <script
+    src="https://code.jquery.com/jquery-3.1.1.min.js"
+    integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+    crossorigin="anonymous"></script>
+  <script type="text/javascript">
+  //<![CDATA[
+  const generateCardValues = (n) => {
+    var array = [];
+    cardValues = []
+    for (i = 0; i < n ; i++) {
+      array.push(i + 1);
+      array.push(i + 1);
+    }
+    while (array.length > 0) {
+    var arrayIndex = Math.floor((Math.random()) * array.length);
+    cardValues.push(array[arrayIndex]);
+    array.splice(arrayIndex,1)
+    };
+    return cardValues;
+    console.log(cardValues);
+  };
+  const renderCards = (cardValues) => {
+    $('#game').empty();
+    var cardValuesLength = cardValues.length;
+    for (var i = 0; i < cardValuesLength; i++) {
+      cardValuesClass = cardValues[i]
+      $('#game').append('<div class="col-xs-3 card"><p class="hidden-card card-' + cardValues[i] + '">' + cardValues[i] + '</p></div>');
+      $('.card-' + cardValues[i]).data('number', cardValues[i]);
+    };
+  };
+
+var clicks;
+
+  const clickCount = () => {
+
+    if (clicks) {
+      clicks++;
+    } else {
+      clicks = 1;
+    }
+    $('#click-count').find('p').replaceWith('<p>You have clicked <b>' + clicks + '</b> times.</p>')
+  };
+  const winMessage = (clicks) => {
+    $('#win-message').find('h3').replaceWith('<h3>You won in ' + clicks + ' clicks!</h3>');
+  };
+
+
+  $(document).ready(function(){
+    var n = 8;
+    var checkMatchArray = [];
+    renderCards(generateCardValues(n));
+    var $hiddenCard = $('.hidden-card');
+    var $shownCard = $('.shown-card');
+    var $winMessage = $('#win-message');
+    $hiddenCard.hide();
+    $shownCard.hide();
+    $winMessage.hide()
+    $('.card').click(function() {
+      if ($('.shown-card').length < 2 && $(this).find('p').hasClass("hidden-card")) {
+        clickCount();
+        $(this).find('.hidden-card').toggleClass('hidden-card shown-card');
+        $(this).find('p').show(250);
+        checkMatchArray.push($(this).find('p').data('number'));
+        console.log(checkMatchArray);
+        console.log($('.shown-card').length);
+      };
+      if ($('.shown-card').length == 2) {
+        if (checkMatchArray[0] === checkMatchArray[1]) {
+          $('.shown-card').toggleClass('shown-card solved-card');
+          checkMatchArray = []
+          if ($('.solved-card').length === n*2) {
+            winMessage(clicks);
+            $winMessage.show(250);
+          };
+        } else {
+          $('.shown-card').toggleClass('shown-card hidden-card');
+          $(this).find('p').delay(500).hide(250);
+          $('.hidden-card').delay(750).hide(250);
+          checkMatchArray = [];
+        };
+      };
+    });
+    if ($('solved-card').length === n) {
+      $winMessage.show(250);
+    }
+
+  });
+  //]]>
+  </script>
+</body>
+</html>

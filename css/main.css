@@ -1,0 +1,70 @@
+/*universal rules*/
+html, body {
+  font-size: 14px;
+  color: rgb(74,74,74);
+  font-family: "Work Sans", sans-serif;
+}
+h1 {
+  font-size: 2.5rem;
+  color: rgb(32,64,86);
+  font-weight: bold;
+  text-align: center;
+}
+h3 {
+  font-size: 1rem;
+  font-weight: bold;
+}
+.container-fluid{
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+#click-count > * {
+  display: inline;
+}
+.card {
+  height: 20vh;
+  background-color: rgb(32,64,86);
+  border: 4px solid #fff;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.card p {
+  font-weight: 900;
+  font-size: 7rem;
+  color: white;
+  width: 100%;
+  margin: 0;
+  text-align: center;
+}
+@media only screen and (max-width: 500px) {
+  .card p {
+    font-size: 5rem;
+  }
+  .card {
+    height: 9rem;
+  }
+}
+
+.solved-card {
+  background-color:rgb(84,168,226);
+}
+
+#win-message {
+  position: fixed;
+  background-color: white;
+  width: 100%;
+  z-index: 100;
+  text-align: center;
+  top: 45%;
+}
+
+
+
+/*.card:hover p {
+  visibility: visible;
+}*/
