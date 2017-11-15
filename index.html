@@ -59,7 +59,7 @@
   //<![CDATA[
   const generateCardValues = (n) => {
     var array = [];
-    cardValues = []
+    var cardValues = []
     for (i = 0; i < n ; i++) {
       array.push(i + 1);
       array.push(i + 1);
@@ -83,7 +83,6 @@
   };
 
 var clicks;
-
   const clickCount = () => {
 
     if (clicks) {
@@ -133,10 +132,6 @@ var clicks;
         };
       };
     });
-    if ($('solved-card').length === n) {
-      $winMessage.show(250);
-    }
-
   });
   //]]>
   </script>
